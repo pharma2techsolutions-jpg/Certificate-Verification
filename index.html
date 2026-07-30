@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharma2Tech Systems Portal</title>
+    <!-- High-Precision CDNs for PDF & Image Rendering -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Montserrat:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #1e293b;
+            min-height: 100vh;
+            overflow-x: hidden;
+            pointer-events: auto !important;
+        }
+
+        /* LOGIN SCREEN */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+
+        .login-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 440px;
+            border-radius: 16px;
+            padding: 36px 30px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .login-logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 16px;
+            object-fit: contain;
+        }
+
+        .login-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #032b69;
+            margin-bottom: 6px;
+        }
+
+        .login-subtitle {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 28px;
+            font-weight: 500;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .form-control:focus {
+            border-color: #0284c7;
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+        }
+
+        .btn-group-action {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .btn-primary {
+            background: #032b69;
+            color: #ffffff;
+            border: none;
+            padding: 12px 24px;
+            font-size: 13.5px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            background: #0284c7;
+        }
+
+        .btn-secondary {
+            background: #0284c7;
+            color: #ffffff;
+            border: none;
+            padding: 12px 24px;
+            font-size: 13.5px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary:hover {
+            background: #0369a1;
+        }
+
+        .btn-primary:disabled, .btn-secondary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .error-msg {
+            color: #ef4444;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 12px;
+            display: none;
+        }
+
+        /* MAIN PORTAL & DASHBOARD */
+        #portal-app {
+            display: none;
+        }
+
+        .navbar {
+            background: #032b69;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .nav-brand img {
+            height: 40px;
+            width: 40px;
+            background: white;
+            border-radius: 50%;
+            padding: 2px;
+        }
+
+        .user-welcome {
+            font-size: 13px;
+            font-weight: 600;
+            color: #bae6fd;
+        }
+
+        .btn-logout {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 7px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-left: 15px;
+        }
+
+        .tab-bar {
+            background: #1e293b;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+            border-bottom: 1px solid #334155;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            padding: 10px 20px;
+            font-size: 13.5px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: #0284c7;
+            color: white;
+        }
+
+        .content-container {
+            display: flex;
+            justify-content: center;
+            padding: 20px 10px;
+            overflow-x: auto;
+        }
+
+        .tab-pane {
+            display: none;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        .mobile-scroll-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 10px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* SCORECARD CARD DESIGN (EXACT PORTRAIT A4 FIT) */
+        .scorecard-card {
+            width: 210mm;
+            height: 297mm; /* Strictly Fixed A4 Height to prevent 2-page spill */
+            background: #ffffff;
+            padding: 0 16mm 10mm 16mm;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            border: 1px solid #cbd5e1;
+            margin: 0 auto;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+        }
+
+        .scorecard-card::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 380px;
+            height: 380px;
+            background-image: url('https://lh3.googleusercontent.com/d/1qVCzMtsrE4LyeG4lkvgGUb_-HJvE3GES');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            opacity: 0.035;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .header-wave-container {
+            position: relative;
+            width: calc(100% + 32mm);
+            height: 65px;
+            margin-left: -16mm;
+            margin-right: -16mm;
+            margin-bottom: 6px;
+        }
+
+        .wave-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 65px;
+        }
+
+        .top-brand-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 2px;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .brand-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo-main {
+            height: 65px;
+            width: 65px;
+            object-fit: contain;
+        }
+
+        .brand-title-text {
+            font-size: 24px;
+            font-weight: 900;
+            color: #032b69;
+            line-height: 1.1;
+        }
+
+        .brand-subtitle-tag {
+            font-size: 10px;
+            font-weight: 800;
+            color: #0284c7;
+            text-transform: uppercase;
+            margin-top: 2px;
+            letter-spacing: 0.5px;
+        }
+
+        .program-badge {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #0369a1;
+            font-weight: 800;
+            font-size: 9.5px;
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-top: 4px;
+            border: 1px solid #7dd3fc;
+        }
+
+        .iso-badge-top {
+            text-align: right;
+            font-size: 8.5px;
+            font-weight: 800;
+            color: #475569;
+            background: #f8fafc;
+            padding: 5px 10px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .title-container-block {
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .main-scorecard-title {
+            font-size: 21px;
+            font-weight: 900;
+            color: #032b69;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .domain-subtitle {
+            font-size: 11px;
+            font-weight: 800;
+            color: #0284c7;
+            background: #f0f9ff;
+            border: 1.5px solid #bae6fd;
+            padding: 3px 14px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 4px;
+            text-transform: uppercase;
+        }
+
+        .candidate-info-block {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px 16px;
+            margin-bottom: 14px;
+            background: #f8fafc;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            border-left: 5px solid #0284c7;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            font-size: 8.5px;
+            font-weight: 800;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            font-size: 12.5px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-top: 2px;
+        }
+
+        .section-header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+
+        .section-title {
+            font-size: 10px;
+            font-weight: 800;
+            color: #032b69;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-weightage {
+            font-size: 9.5px;
+            font-weight: 800;
+            color: #0284c7;
+        }
+
+        .tcs-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #cbd5e1;
+            margin-bottom: 6px;
+            background: #ffffff;
+        }
+
+        .tcs-table th, .tcs-table td {
+            border: 1px solid #cbd5e1;
+            padding: 6px 8px;
+            font-size: 10px;
+        }
+
+        .tcs-table th {
+            background: #032b69;
+            font-weight: 800;
+            color: #ffffff;
+            text-transform: uppercase;
+            font-size: 9px;
+        }
+
+        .tcs-table tr.summary-row {
+            background-color: #f1f5f9;
+            font-weight: 800;
+        }
+
+        .grand-total-card {
+            background: #f0f9ff;
+            border: 1.5px solid #38bdf8;
+            border-radius: 8px;
+            padding: 10px 14px;
+            margin-top: 12px;
+            margin-bottom: 10px;
+        }
+
+        .gt-metrics-row {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            text-align: center;
+        }
+
+        .gt-box .lbl {
+            font-size: 8.5px;
+            font-weight: 800;
+            color: #0369a1;
+            text-transform: uppercase;
+        }
+
+        .gt-box .val {
+            font-size: 17px;
+            font-weight: 900;
+            color: #0f172a;
+            margin-top: 2px;
+        }
+
+        .disclaimer-text {
+            font-size: 8px;
+            color: #94a3b8;
+            text-align: center;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        /* SCORECARD FOOTER */
+        .footer-tcs-layout {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding-top: 8px;
+            border-top: 1px solid #e2e8f0;
+            margin-top: auto;
+        }
+
+        .qr-img-box {
+            width: 80px;
+            height: 80px;
+            border: 1px solid #0f172a;
+            padding: 3px;
+            background: #ffffff;
+        }
+
+        .qr-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .seal-align-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 130px;
+        }
+
+        .official-seal-img {
+            width: 75px;
+            height: 75px;
+            object-fit: contain;
+            margin-bottom: 2px;
+        }
+
+        .seal-caption-text {
+            font-size: 7.5px;
+            text-align: center;
+            color: #64748b;
+            font-weight: 700;
+            line-height: 1.2;
+            white-space: nowrap;
+        }
+
+        /* CERTIFICATE DESIGN (EXACT LANDSCAPE A4 FIT) */
+        .certificate-card {
+            width: 297mm;
+            height: 210mm; /* Strictly Fixed Landscape A4 Height */
+            background: #ffffff;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            position: relative;
+            display: flex;
+            overflow: hidden;
+            border: 1px solid #cbd5e1;
+            margin: 0 auto;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+        }
+
+        .outer-border-frame {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            bottom: 10px;
+            left: 10px;
+            border: 2px solid #032b69;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .inner-border-frame {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            bottom: 14px;
+            left: 14px;
+            border: 1px dashed #0284c7;
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0.5;
+        }
+
+        .left-gold-ribbon-panel {
+            width: 44mm;
+            background: linear-gradient(180deg, #021a42 0%, #032b69 50%, #021a42 100%);
+            border-right: 4px solid #0284c7;
+            position: relative;
+            z-index: 4;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.25);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .left-gold-ribbon-panel::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(rgba(56, 189, 248, 0.18) 1.5px, transparent 1.5px),
+                linear-gradient(135deg, rgba(2, 132, 199, 0.15) 0%, transparent 50%, rgba(3, 43, 105, 0.25) 100%);
+            background-size: 18px 18px, 100% 100%;
+            opacity: 0.85;
+            pointer-events: none;
+        }
+
+        .main-cert-body {
+            flex: 1;
+            padding: 14mm 18mm 12mm 18mm;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 2;
+            background: radial-gradient(circle at center, #ffffff 60%, #f8fafc 100%);
+        }
+
+        .main-cert-body .cert-watermark {
+            position: absolute;
+            top: 52%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 420px;
+            opacity: 0.035;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .header-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            z-index: 5;
+            position: relative;
+        }
+
+        .brand-left-group {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .brand-logo-large {
+            height: 85px;
+            width: 85px;
+            object-fit: contain;
+            filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.12));
+            border-radius: 4px;
+        }
+
+        .brand-text-block {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .brand-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 28px;
+            font-weight: 900;
+            color: #032b69;
+            line-height: 1.05;
+            letter-spacing: -0.2px;
+        }
+
+        .brand-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 800;
+            color: #0284c7;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-top: 4px;
+        }
+
+        .brand-tag-pill {
+            display: inline-block;
+            background-color: #e0f2fe;
+            color: #0284c7;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid #bae6fd;
+            margin-top: 6px;
+        }
+
+        .header-cert-id-badge {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 9px;
+            font-weight: 800;
+            color: #032b69;
+            background: #f0f9ff;
+            border: 1px solid #0284c7;
+            padding: 4px 10px;
+            border-radius: 6px;
+            box-shadow: 0 1px 4px rgba(2, 132, 199, 0.1);
+            letter-spacing: 0.5px;
+        }
+
+        .cert-title-container {
+            margin-bottom: 20px;
+            text-align: left;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cert-title-primary {
+            font-family: 'Cinzel', serif;
+            font-size: 40px;
+            font-weight: 900;
+            color: #032b69;
+            letter-spacing: 3px;
+            line-height: 1;
+            text-shadow: 0 2px 4px rgba(3, 43, 105, 0.08);
+        }
+
+        .cert-title-secondary {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 20px;
+            font-weight: 900;
+            color: #0284c7;
+            letter-spacing: 5px;
+            margin-top: 4px;
+            text-transform: uppercase;
+        }
+
+        .candidate-container {
+            margin-top: 2px;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .presented-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #334155;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 6px;
+        }
+
+        .candidate-fullname {
+            font-family: 'Cinzel', serif;
+            font-size: 36px;
+            font-weight: 800;
+            color: #0284c7;
+            letter-spacing: 1px;
+            line-height: 1.2;
+            padding: 2px 0;
+            text-transform: uppercase;
+        }
+
+        .candidate-dotted-line {
+            width: 100%;
+            height: 0;
+            border-bottom: 2px dashed #0284c7;
+            margin-top: 4px;
+            margin-bottom: 16px;
+            opacity: 0.6;
+        }
+
+        .domain-details {
+            font-size: 15px;
+            font-weight: 500;
+            color: #334155;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .domain-title-highlight {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 21px;
+            font-weight: 800;
+            color: #0f172a;
+            margin: 4px 0;
+        }
+
+        .merit-score-badge {
+            font-weight: 800;
+            color: #15803d;
+            background: #dcfce7;
+            padding: 3px 10px;
+            border-radius: 4px;
+            border: 1px solid #86efac;
+            font-size: 15px;
+        }
+
+        .certificate-card .cert-footer-row {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            z-index: 5;
+            padding-top: 10px;
+            position: relative;
+        }
+
+        .footer-seals-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .official-seal-large {
+            width: 95px;
+            height: 95px;
+            object-fit: contain;
+        }
+
+        .badge-seal-large {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+        }
+
+        .footer-qr-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .qr-card-container {
+            width: 85px;
+            height: 85px;
+            border: 1.5px solid #032b69;
+            padding: 3px;
+            background: #ffffff;
+            border-radius: 6px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+        }
+
+        .qr-card-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .verified-badge-pill {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 8px;
+            font-weight: 800;
+            color: #032b69;
+            background: #e0f2fe;
+            border: 1px solid #0284c7;
+            padding: 3px 8px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            margin-top: 5px;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            justify-content: center;
+        }
+
+        .footer-signature-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 220px;
+        }
+
+        .signature-img-container {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2px;
+        }
+
+        .signature-img-container img {
+            max-height: 100%;
+            max-width: 190px;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+
+        .signature-horizontal-line {
+            width: 100%;
+            height: 1.5px;
+            background: linear-gradient(90deg, rgba(51,65,85,0.1) 0%, rgba(51,65,85,1) 50%, rgba(51,65,85,0.1) 100%);
+            margin-bottom: 5px;
+        }
+
+        .authority-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13.5px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 2px;
+        }
+
+        .authority-title {
+            font-size: 10px;
+            font-weight: 600;
+            color: #475569;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        @media screen and (max-width: 768px) {
+            .navbar {
+                padding: 10px 14px;
+            }
+            .nav-brand span {
+                font-size: 14px;
+            }
+            .user-welcome {
+                display: none;
+            }
+            .tab-btn {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+            .mobile-scroll-wrapper {
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- LOGIN SCREEN -->
+    <div id="login-screen" class="login-container">
+        <div class="login-card">
+            <img src="https://lh3.googleusercontent.com/d/1qVCzMtsrE4LyeG4lkvgGUb_-HJvE3GES" alt="Pharma2Tech Logo" class="login-logo" onerror="this.src='https://via.placeholder.com/80?text=P2T';">
+            <div class="login-title">Pharma2Tech Systems</div>
+            <div class="login-subtitle">Verification Portal - National Talent Test</div>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="studentId">Student ID (Registered Email)</label>
+                    <input type="email" id="studentId" class="form-control" placeholder="e.g. student@gmail.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-control" placeholder="Enter password" required>
+                </div>
+                <button type="submit" id="login-btn" class="btn-primary" style="width: 100%; justify-content: center;">Login & Access Portal</button>
+                <div id="error-msg" class="error-msg">Invalid Credentials! Please check your ID and Password.</div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN PORTAL DASHBOARD -->
+    <div id="portal-app">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <img src="https://lh3.googleusercontent.com/d/1qVCzMtsrE4LyeG4lkvgGUb_-HJvE3GES" alt="Logo">
+                <span>Pharma2Tech Portal</span>
+            </div>
+            <div class="nav-right">
+                <span class="user-welcome">Welcome, <strong id="user-display-name">Student</strong></span>
+                <button class="btn-logout" onclick="logout()">Logout</button>
+            </div>
+        </nav>
+
+        <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab('scorecard-tab', this)">📄 Scorecard Preview</button>
+            <button class="tab-btn" onclick="switchTab('certificate-tab', this)">🎓 Participation Certificate</button>
+        </div>
+
+        <div class="content-container">
+            <!-- TAB 1: SCORECARD -->
+            <div id="scorecard-tab" class="tab-pane active">
+                <div class="mobile-scroll-wrapper">
+                    <div id="scorecard-pdf-target" class="scorecard-card">
+                        <div>
+                            <div class="header-wave-container">
+                                <svg class="wave-svg" viewBox="0 0 500 65" preserveAspectRatio="none">
+                                    <path d="M0,0 L500,0 L500,30 Q350,65 200,20 T0,40 Z" fill="#032b69" opacity="0.95"/>
+                                    <path d="M0,0 L500,0 L500,15 Q380,55 180,15 T0,25 Z" fill="#0284c7" opacity="0.8"/>
+                                </svg>
+                            </div>
+
+                            <div class="top-brand-header">
+                                <div class="brand-left">
+                                    <img src="https://lh3.googleusercontent.com/d/1qVCzMtsrE4LyeG4lkvgGUb_-HJvE3GES" alt="Logo" class="brand-logo-main">
+                                    <div>
+                                        <div class="brand-title-text">Pharma2Tech Systems</div>
+                                        <div class="brand-subtitle-tag">WHERE PHARMACY MEETS TECHNOLOGY</div>
+                                        <div class="program-badge">#Career Catalyst Program</div>
+                                    </div>
+                                </div>
+                                <div class="iso-badge-top">
+                                    <div><strong>ISO 9001:2015 CERTIFIED</strong></div>
+                                    <div style="color: #0284c7; margin-top: 2px;">Govt. Registered MSME</div>
+                                </div>
+                            </div>
+
+                            <div class="title-container-block">
+                                <div class="main-scorecard-title">NATIONAL TALENT TEST SCORECARD</div>
+                                <div class="domain-subtitle" id="card-test-name">DOMAIN: PHARMACOVIGILANCE</div>
+                            </div>
+
+                            <div class="candidate-info-block">
+                                <div class="info-item">
+                                    <span class="info-label">Candidate Name</span>
+                                    <span class="info-value" id="card-student-name">-</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Date of Exam</span>
+                                    <span class="info-value" id="card-exam-date">-</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Registration Number</span>
+                                    <span class="info-value" id="card-reg-no" style="font-family: monospace; color: #032b69;">-</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Evaluation Status</span>
+                                    <span class="info-value" style="color: #16a34a;" id="card-status-val">● QUALIFIED (GRADE A+)</span>
+                                </div>
+                            </div>
+
+                            <!-- PART A -->
+                            <div class="section-header-bar">
+                                <span class="section-title">PART A - CORE DOMAIN ASSESSMENT (30 MARKS)</span>
+                                <span class="section-weightage">DOMAIN WEIGHTAGE: 60%</span>
+                            </div>
+                            <table class="tcs-table">
+                                <thead>
+                                    <tr>
+                                        <th>Modules</th>
+                                        <th style="text-align: center; width: 140px;">Marks Obtained</th>
+                                        <th style="text-align: center; width: 140px;">Maximum Marks</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Domain Fundamentals & Regulatory Standards (Questions 1-15)</td>
+                                        <td style="text-align: center;" id="partA1-val">15.00</td>
+                                        <td style="text-align: center;">15.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Core Applied Domain Concepts (Questions 16-30)</td>
+                                        <td style="text-align: center;" id="partA2-val">15.00</td>
+                                        <td style="text-align: center;">15.00</td>
+                                    </tr>
+                                    <tr class="summary-row">
+                                        <td>Total Part A Score</td>
+                                        <td style="text-align: center;" id="partA-total-val">30.00</td>
+                                        <td style="text-align: center;">30.00</td>
+                                    </tr>
+                                    <tr class="summary-row" style="color: #0284c7;">
+                                        <td>Part A Percentage (%)</td>
+                                        <td style="text-align: center;" id="partA-pct-val">100.00%</td>
+                                        <td style="text-align: center;">-</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- PART B -->
+                            <div class="section-header-bar">
+                                <span class="section-title">PART B - ADVANCED TECHNICAL & COMPLIANCE (20 MARKS)</span>
+                                <span class="section-weightage">DOMAIN WEIGHTAGE: 40%</span>
+                            </div>
+                            <table class="tcs-table">
+                                <thead>
+                                    <tr>
+                                        <th>Modules</th>
+                                        <th style="text-align: center; width: 140px;">Marks Obtained</th>
+                                        <th style="text-align: center; width: 140px;">Maximum Marks</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Advanced Systems & Data Standards (Questions 31-40)</td>
+                                        <td style="text-align: center;" id="partB1-val">10.00</td>
+                                        <td style="text-align: center;">10.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Analytical Reasoning & Case Analysis (Questions 41-50)</td>
+                                        <td style="text-align: center;" id="partB2-val">8.00</td>
+                                        <td style="text-align: center;">10.00</td>
+                                    </tr>
+                                    <tr class="summary-row">
+                                        <td>Total Part B Score</td>
+                                        <td style="text-align: center;" id="partB-total-val">18.00</td>
+                                        <td style="text-align: center;">20.00</td>
+                                    </tr>
+                                    <tr class="summary-row" style="color: #0284c7;">
+                                        <td>Part B Percentage (%)</td>
+                                        <td style="text-align: center;" id="partB-pct-val">90.00%</td>
+                                        <td style="text-align: center;">-</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="grand-total-card">
+                                <div class="gt-metrics-row">
+                                    <div class="gt-box">
+                                        <div class="lbl">Total Marks Obtained</div>
+                                        <div class="val" id="gt-score-val">48.00 / 50.00</div>
+                                    </div>
+                                    <div class="gt-box">
+                                        <div class="lbl">Overall Percentage</div>
+                                        <div class="val" style="color: #0284c7;" id="gt-pct-val">96.00 %</div>
+                                    </div>
+                                    <div class="gt-box">
+                                        <div class="lbl">Performance Grade</div>
+                                        <div class="val" style="color: #16a34a;" id="gt-grade-val">GRADE A+</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="disclaimer-text">
+                                The raw evaluation scores have been standardized and verified under official Pharma2Tech assessment protocols.
+                            </div>
+                        </div>
+
+                        <!-- SCORECARD FOOTER -->
+                        <div class="footer-tcs-layout">
+                            <div class="qr-img-box">
+                                <img id="qr-code-img" src="" alt="Scan QR Code">
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="background: #032b69; color: white; padding: 3px 10px; border-radius: 4px; font-size: 9.5px; font-weight: 800; display: inline-block;">VERIFIED CREDENTIAL</div>
+                                <div style="font-size: 9.5px; color: #0284c7; font-weight: 800; margin-top: 5px;">Accelerate your Pharma-IT career with</div>
+                                <div style="font-size: 9.5px; color: #032b69; font-weight: 800;">Pharma2Tech Career Catalyst Systems</div>
+                            </div>
+                            <div class="seal-align-column">
+                                <img src="https://lh3.googleusercontent.com/d/1k-xc_yc1Rb_PvTfZmP5VYbS_bmHAX4Wh" alt="Seal" class="official-seal-img">
+                                <div class="seal-caption-text">Date Issued: Jul 2026<br>Valid for 2 years post date</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-group-action">
+                    <button id="btn-dl-scorecard-pdf" class="btn-primary" onclick="downloadScorecardPDF()">📩 Download Scorecard PDF</button>
+                    <button id="btn-dl-scorecard-jpg" class="btn-secondary" onclick="downloadScorecardJPG()">🖼️ Download Scorecard JPG</button>
+                </div>
+            </div>
+
+            <!-- TAB 2: CERTIFICATE -->
+            <div id="certificate-tab" class="tab-pane">
+                <div class="mobile-scroll-wrapper">
+                    <div id="certificate-pdf-target" class="certificate-card">
+
+                        <div class="outer-border-frame"></div>
+                        <div class="inner-border-frame"></div>
+                        <div class="left-gold-ribbon-panel"></div>
+
+                        <div class="main-cert-body">
+                            <img src="https://lh3.googleusercontent.com/d/1qVCzMtsrE4LyeG4lkvgGUb_-HJvE3GES" alt="Watermark" class="cert-watermark">
+
+                            <div class="header-top-row">
+                                <div class="brand-left-group">
+                                    <img src="https://lh3.googleusercontent.com/d/1qVCzMtsrE4LyeG4lkvgGUb_-HJvE3GES" alt="Pharma2Tech Logo" class="brand-logo-large" onerror="this.src='https://via.placeholder.com/85?text=P2T+Logo';">
+                                    <div class="brand-text-block">
+                                        <div class="brand-title">Pharma2Tech Systems</div>
+                                        <div class="brand-subtitle">WHERE PHARMACY MEETS TECHNOLOGY</div>
+                                        <div class="brand-tag-pill">#Career Catalyst Program</div>
+                                    </div>
+                                </div>
+
+                                <div class="header-cert-id-badge" id="cert-id-display">Certificate ID: P2T-NTT20260001</div>
+                            </div>
+
+                            <div class="cert-title-container">
+                                <div class="cert-title-primary">CERTIFICATE</div>
+                                <div class="cert-title-secondary">OF MERIT</div>
+                            </div>
+
+                            <div class="candidate-container">
+                                <div class="presented-label">This Certificate is Proudly Awarded to</div>
+                                <div class="candidate-fullname" id="cert-student-name">STUDENT NAME</div>
+                                <div class="candidate-dotted-line"></div>
+                            </div>
+
+                            <div class="domain-details">
+                                <div>For outstanding performance in the Pharma2Tech National Level Evaluation on</div>
+                                <div class="domain-title-highlight" id="cert-test-name">"Pharmacovigilance"</div>
+                                <div>
+                                    Held on <strong id="cert-exam-date-str">28/07/2026</strong>, securing a score of <span class="merit-score-badge" id="cert-score-display">96.00% (Grade A+)</span>.
+                                </div>
+                            </div>
+
+                            <div class="cert-footer-row">
+                                <div class="footer-seals-group">
+                                    <img src="https://lh3.googleusercontent.com/d/1k-xc_yc1Rb_PvTfZmP5VYbS_bmHAX4Wh" alt="Official Seal" class="official-seal-large" onerror="this.src='https://via.placeholder.com/95?text=Official+Seal';">
+                                    <img src="https://lh3.googleusercontent.com/d/1KYv4jhU5bt5wtKkEh9Lj2jU0RItvQgra" alt="Badge Seal" class="badge-seal-large" onerror="this.src='https://via.placeholder.com/100?text=Badge+Seal';">
+                                </div>
+
+                                <div class="footer-qr-box">
+                                    <div class="qr-card-container">
+                                        <img id="cert-qr-img" src="" alt="Scan Verification">
+                                    </div>
+                                    <div class="verified-badge-pill">
+                                        <span>✓</span> VERIFIED CREDENTIALS
+                                    </div>
+                                </div>
+
+                                <div class="footer-signature-box">
+                                    <div class="signature-img-container">
+                                        <img src="https://lh3.googleusercontent.com/d/1Zb2e4R-qJ2qr-lWm4wk2nX946U1rMaAF" alt="Rushikesh Raje Signature" onerror="this.src='https://via.placeholder.com/190x60?text=Signature';">
+                                    </div>
+                                    <div class="signature-horizontal-line"></div>
+                                    <div class="authority-name">Mr. Rushikesh V. Raje</div>
+                                    <div class="authority-title">
+                                        Founder & MD - Pharma2Tech Systems<br>
+                                        <i>B.Pharm, Certified in Clinical Trials</i>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-group-action">
+                    <button id="btn-dl-cert-pdf" class="btn-primary" onclick="downloadCertificatePDF()">🎓 Download Certificate PDF</button>
+                    <button id="btn-dl-cert-jpg" class="btn-secondary" onclick="downloadCertificateJPG()">🖼️ Download Certificate JPG</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwYUuLHdJ3kMHn_tM6-PFP2mQVw2DFv2whYCDvXL01H-Wlfd_Q_S33flpcneBEd6vT1/exec";
+        let currentStudentData = null;
+
+        function formatDate(rawDate) {
+            if (!rawDate) return "28/07/2026";
+            const d = new Date(rawDate);
+            if (isNaN(d.getTime())) return rawDate;
+            const day = String(d.getDate()).padStart(2, '0');
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            return `${day}/${month}/${d.getFullYear()}`;
+        }
+
+        // LOGIN HANDLER
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const studentId = document.getElementById('studentId').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const loginBtn = document.getElementById('login-btn');
+            const errorMsg = document.getElementById('error-msg');
+
+            loginBtn.innerText = "Verifying...";
+            loginBtn.disabled = true;
+            errorMsg.style.display = 'none';
+
+            const callbackName = 'handleLogin_' + Math.floor(Math.random() * 1000000);
+            window[callbackName] = function(response) {
+                delete window[callbackName];
+                if (script.parentNode) document.body.removeChild(script);
+                loginBtn.innerText = "Login & Access Portal";
+                loginBtn.disabled = false;
+
+                if (response.success) {
+                    currentStudentData = response.data;
+                    syncAndRenderData(response.data);
+                    
+                    document.getElementById('login-screen').style.display = 'none';
+                    document.getElementById('portal-app').style.display = 'block';
+                    document.getElementById('user-display-name').innerText = response.studentName;
+                } else {
+                    errorMsg.innerText = response.message || "Invalid Student ID or Password!";
+                    errorMsg.style.display = 'block';
+                }
+            };
+
+            const script = document.createElement('script');
+            script.src = `${APPS_SCRIPT_URL}?action=login&studentId=${encodeURIComponent(studentId)}&password=${encodeURIComponent(password)}&callback=${callbackName}`;
+            document.body.appendChild(script);
+        });
+
+        // SYNC BOTH SCORECARD & CERTIFICATE DATA
+        function syncAndRenderData(data) {
+            const formattedExamDate = formatDate(data.date);
+            const score = Number(data.score) || 0;
+            const total = Number(data.total) || 50;
+            const pct = ((score / total) * 100).toFixed(2);
+
+            let grade = "Grade B";
+            if (pct >= 90) grade = "Grade A+";
+            else if (pct >= 75) grade = "Grade A";
+            else if (pct >= 60) grade = "Grade B+";
+
+            const certIdVal = data.certId || `P2T-${data.regNo || '2026001'}`;
+
+            // --- 1. RENDER SCORECARD ---
+            document.getElementById('card-student-name').innerText = data.name;
+            document.getElementById('card-exam-date').innerText = formattedExamDate;
+            document.getElementById('card-test-name').innerText = `DOMAIN: ${data.testName.toUpperCase()}`;
+            document.getElementById('card-reg-no').innerText = data.regNo;
+
+            const pA1 = Number(data.partA1) || 0;
+            const pA2 = Number(data.partA2) || 0;
+            const pA_total = pA1 + pA2;
+            const pA_pct = ((pA_total / 30) * 100).toFixed(2);
+
+            const pB1 = Number(data.partB1) || 0;
+            const pB2 = Number(data.partB2) || 0;
+            const pB_total = pB1 + pB2;
+            const pB_pct = ((pB_total / 20) * 100).toFixed(2);
+
+            document.getElementById('partA1-val').innerText = pA1.toFixed(2);
+            document.getElementById('partA2-val').innerText = pA2.toFixed(2);
+            document.getElementById('partA-total-val').innerText = pA_total.toFixed(2);
+            document.getElementById('partA-pct-val').innerText = `${pA_pct}%`;
+
+            document.getElementById('partB1-val').innerText = pB1.toFixed(2);
+            document.getElementById('partB2-val').innerText = pB2.toFixed(2);
+            document.getElementById('partB-total-val').innerText = pB_total.toFixed(2);
+            document.getElementById('partB-pct-val').innerText = `${pB_pct}%`;
+
+            document.getElementById('gt-score-val').innerText = `${score.toFixed(2)} / ${total.toFixed(2)}`;
+            document.getElementById('gt-pct-val').innerText = `${pct} %`;
+            document.getElementById('gt-grade-val').innerText = grade.toUpperCase();
+            document.getElementById('card-status-val').innerText = `● QUALIFIED (${grade.toUpperCase()})`;
+
+            // Scorecard QR
+            const scorecardQrText = `PHARMA2TECH OFFICIAL SCORECARD\nName: ${data.name}\nReg No: ${data.regNo}\nCert ID: ${certIdVal}\nDomain: ${data.testName}\nScore: ${score}/${total} (${pct}%)\nGrade: ${grade.toUpperCase()}\nExam Date: ${formattedExamDate}`;
+            document.getElementById('qr-code-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(scorecardQrText)}`;
+
+            // --- 2. RENDER CERTIFICATE ---
+            document.getElementById('cert-student-name').innerText = data.name;
+            document.getElementById('cert-test-name').innerText = `"${data.testName}"`;
+            document.getElementById('cert-score-display').innerText = `${pct}% (${grade})`;
+            document.getElementById('cert-exam-date-str').innerText = formattedExamDate;
+            document.getElementById('cert-id-display').innerText = `Certificate ID: ${certIdVal}`;
+
+            // Certificate QR
+            const certQrText = `VERIFIED CERTIFICATE CREDENTIALS\n===================================\nOrganization: Pharma2Tech Systems Pvt Ltd\nCandidate Name: ${data.name}\nCertificate ID: ${certIdVal}\nRegistration No: ${data.regNo}\nEvaluation Domain: ${data.testName}\nPerformance Score: ${pct}% (${grade})\nIssue Date: ${formattedExamDate}\nIssuing Authority: Mr. Rushikesh V. Raje (Founder & MD)\nStatus: OFFICIALLY VERIFIED & AUTHENTIC`;
+            document.getElementById('cert-qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(certQrText)}`;
+        }
+
+        async function captureElementToBlob(element) {
+            const images = Array.from(element.querySelectorAll('img'));
+            await Promise.all(images.map(img => {
+                if (img.complete) return Promise.resolve();
+                return new Promise(resolve => {
+                    img.onload = resolve;
+                    img.onerror = resolve;
+                });
+            }));
+
+            return await html2canvas(element, {
+                scale: 2,
+                useCORS: true,
+                logging: false,
+                allowTaint: true,
+                backgroundColor: '#ffffff'
+            });
+        }
+
+        function triggerDirectBlobDownload(blob, filename) {
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            setTimeout(() => {
+                document.body.removeChild(link);
+                URL.revokeObjectURL(link.href);
+            }, 100);
+        }
+
+        // PERFECT SINGLE-PAGE FIT PDF DOWNLOADS
+        async function downloadScorecardPDF() {
+            const element = document.getElementById('scorecard-pdf-target');
+            const btn = document.getElementById('btn-dl-scorecard-pdf');
+            btn.innerText = "Downloading...";
+            btn.disabled = true;
+
+            try {
+                const filename = `Scorecard_${currentStudentData ? currentStudentData.name : 'Pharma2Tech'}.pdf`;
+                const pdfWorker = html2pdf().set({
+                    margin: 0,
+                    filename: filename,
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2, useCORS: true, logging: false, scrollY: 0, scrollX: 0 },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+                }).from(element);
+
+                const pdfBlob = await pdfWorker.output('blob');
+                triggerDirectBlobDownload(pdfBlob, filename);
+            } catch (err) {
+                console.error("PDF Download error:", err);
+            } finally {
+                btn.innerText = "📩 Download Scorecard PDF";
+                btn.disabled = false;
+                document.body.style.pointerEvents = 'auto';
+            }
+        }
+
+        async function downloadCertificatePDF() {
+            const element = document.getElementById('certificate-pdf-target');
+            const btn = document.getElementById('btn-dl-cert-pdf');
+            btn.innerText = "Downloading...";
+            btn.disabled = true;
+
+            try {
+                const filename = `Certificate_${currentStudentData ? currentStudentData.name : 'Pharma2Tech'}.pdf`;
+                const pdfWorker = html2pdf().set({
+                    margin: 0,
+                    filename: filename,
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2, useCORS: true, logging: false, scrollY: 0, scrollX: 0 },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' },
+                    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+                }).from(element);
+
+                const pdfBlob = await pdfWorker.output('blob');
+                triggerDirectBlobDownload(pdfBlob, filename);
+            } catch (err) {
+                console.error("PDF Download error:", err);
+            } finally {
+                btn.innerText = "🎓 Download Certificate PDF";
+                btn.disabled = false;
+                document.body.style.pointerEvents = 'auto';
+            }
+        }
+
+        async function downloadScorecardJPG() {
+            const element = document.getElementById('scorecard-pdf-target');
+            const btn = document.getElementById('btn-dl-scorecard-jpg');
+            btn.innerText = "Downloading...";
+            btn.disabled = true;
+
+            try {
+                const canvas = await captureElementToBlob(element);
+                canvas.toBlob((blob) => {
+                    const filename = `Scorecard_${currentStudentData ? currentStudentData.name : 'Pharma2Tech'}.jpg`;
+                    triggerDirectBlobDownload(blob, filename);
+                    btn.innerText = "🖼️ Download Scorecard JPG";
+                    btn.disabled = false;
+                    document.body.style.pointerEvents = 'auto';
+                }, 'image/jpeg', 0.95);
+            } catch (err) {
+                console.error("JPG Download error:", err);
+                btn.innerText = "🖼️ Download Scorecard JPG";
+                btn.disabled = false;
+                document.body.style.pointerEvents = 'auto';
+            }
+        }
+
+        async function downloadCertificateJPG() {
+            const element = document.getElementById('certificate-pdf-target');
+            const btn = document.getElementById('btn-dl-cert-jpg');
+            btn.innerText = "Downloading...";
+            btn.disabled = true;
+
+            try {
+                const canvas = await captureElementToBlob(element);
+                canvas.toBlob((blob) => {
+                    const filename = `Certificate_${currentStudentData ? currentStudentData.name : 'Pharma2Tech'}.jpg`;
+                    triggerDirectBlobDownload(blob, filename);
+                    btn.innerText = "🖼️ Download Certificate JPG";
+                    btn.disabled = false;
+                    document.body.style.pointerEvents = 'auto';
+                }, 'image/jpeg', 0.95);
+            } catch (err) {
+                console.error("JPG Download error:", err);
+                btn.innerText = "🖼️ Download Certificate JPG";
+                btn.disabled = false;
+                document.body.style.pointerEvents = 'auto';
+            }
+        }
+
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        function logout() {
+            currentStudentData = null;
+            document.getElementById('portal-app').style.display = 'none';
+            document.getElementById('login-screen').style.display = 'flex';
+        }
+    </script>
+</body>
+</html>
