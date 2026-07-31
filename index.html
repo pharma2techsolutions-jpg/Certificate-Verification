@@ -1374,7 +1374,7 @@
     </div>
 
     <script>
-        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwYUuLHdJ3kMHn_tM6-PFP2mQVw2DFv2whYCDvXL01H-Wlfd_Q_S33flpcneBEd6vT1/exec";
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx4EWaW5E8CTFUfZHiP7eIV8piM1A6OYE0dTCoQ6y3deX4F24cxegJVhXXdPV4hw2sK/exec";
         let currentStudentData = null;
 
         function formatDate(rawDate) {
@@ -1486,52 +1486,51 @@
             document.body.appendChild(script);
         }
 
-        // SUBMIT LINKEDIN URL (Updated with reliable fetch API)
-async function submitLinkedinLink() {
-    const linkedinUrl = document.getElementById('linkedinUrlInput').value.trim();
-    if (!linkedinUrl) {
-        alert("Please enter a valid LinkedIn Post URL!");
-        return;
-    }
+        // SUBMIT LINKEDIN URL
+        async function submitLinkedinLink() {
+            const linkedinUrl = document.getElementById('linkedinUrlInput').value.trim();
+            if (!linkedinUrl) {
+                alert("Please enter a valid LinkedIn Post URL!");
+                return;
+            }
 
-    if (!currentStudentData || !currentStudentData.studentId) {
-        alert("Session expired! Please login again.");
-        logout();
-        return;
-    }
+            if (!currentStudentData || !currentStudentData.studentId) {
+                alert("Session expired! Please login again.");
+                logout();
+                return;
+            }
 
-    const btn = document.getElementById('submit-linkedin-btn');
-    btn.innerText = "Submitting...";
-    btn.disabled = true;
+            const btn = document.getElementById('submit-linkedin-btn');
+            btn.innerText = "Submitting...";
+            btn.disabled = true;
 
-    try {
-        const formData = new URLSearchParams();
-        formData.append('action', 'submitLinkedin');
-        formData.append('studentId', currentStudentData.studentId);
-        formData.append('linkedinUrl', linkedinUrl);
+            try {
+                const formData = new URLSearchParams();
+                formData.append('action', 'submitLinkedin');
+                formData.append('studentId', currentStudentData.studentId);
+                formData.append('linkedinUrl', linkedinUrl);
 
-        const response = await fetch(APPS_SCRIPT_URL, {
-            method: 'POST',
-            body: formData
-        });
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    body: formData
+                });
 
-        const result = await response.json();
+                const result = await response.json();
 
-        if (result.success) {
-            alert("LinkedIn link submitted successfully for review!");
-            checkUserCertificateStatus(currentStudentData.studentId);
-        } else {
-            alert(result.message || "Error submitting link. Please try again.");
-            btn.innerText = "🚀 Submit LinkedIn Post Link for Review";
-            btn.disabled = false;
+                if (result.success) {
+                    alert("LinkedIn link submitted successfully for review!");
+                    checkUserCertificateStatus(currentStudentData.studentId);
+                } else {
+                    alert(result.message || "Error submitting link. Please try again.");
+                    btn.innerText = "🚀 Submit LinkedIn Post Link for Review";
+                    btn.disabled = false;
+                }
+            } catch (err) {
+                console.error("Submission error:", err);
+                alert("LinkedIn link submitted successfully for review!");
+                checkUserCertificateStatus(currentStudentData.studentId);
+            }
         }
-    } catch (err) {
-        console.error("Submission error:", err);
-        // Fallback for CORS opaque response if Google Script redirects
-        alert("LinkedIn link submitted successfully for review!");
-        checkUserCertificateStatus(currentStudentData.studentId);
-    }
-}
 
         // COPY CAPTION FEATURE
         function copyCaptionText() {
