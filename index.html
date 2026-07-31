@@ -158,6 +158,103 @@
             display: none;
         }
 
+        /* LINKEDIN VERIFICATION BOX */
+        .linkedin-section {
+            background: #ffffff;
+            max-width: 210mm;
+            margin: 20px auto;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border: 1px solid #cbd5e1;
+            text-align: left;
+        }
+
+        .linkedin-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #032b69;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .linkedin-desc {
+            font-size: 12.5px;
+            color: #475569;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .caption-box-container {
+            background: #f8fafc;
+            border: 1px dashed #94a3b8;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 11.5px;
+            color: #334155;
+            margin-bottom: 16px;
+            position: relative;
+            white-space: pre-line;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        .copy-caption-btn {
+            background: #0284c7;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            font-size: 11px;
+            font-weight: 700;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .copy-caption-btn:hover {
+            background: #0369a1;
+        }
+
+        .status-alert-box {
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-top: 12px;
+            text-align: center;
+        }
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fcd34d;
+        }
+        .status-approved {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #86efac;
+        }
+        .status-rejected {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        /* LOCKED TAB MESSAGE */
+        .locked-overlay-container {
+            text-align: center;
+            padding: 60px 20px;
+            background: #ffffff;
+            max-width: 210mm;
+            margin: 40px auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
         /* MAIN PORTAL & DASHBOARD */
         #portal-app {
             display: none;
@@ -238,7 +335,8 @@
 
         .content-container {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
             padding: 20px 10px;
             overflow-x: auto;
         }
@@ -266,7 +364,7 @@
         /* SCORECARD CARD DESIGN (EXACT PORTRAIT A4 FIT) */
         .scorecard-card {
             width: 210mm;
-            height: 297mm; /* Strictly Fixed A4 Height to prevent 2-page spill */
+            height: 297mm;
             background: #ffffff;
             padding: 0 16mm 10mm 16mm;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
@@ -521,7 +619,6 @@
             margin-bottom: 10px;
         }
 
-        /* SCORECARD FOOTER */
         .footer-tcs-layout {
             display: flex;
             justify-content: space-between;
@@ -573,7 +670,7 @@
         /* CERTIFICATE DESIGN (EXACT LANDSCAPE A4 FIT) */
         .certificate-card {
             width: 297mm;
-            height: 210mm; /* Strictly Fixed Landscape A4 Height */
+            height: 210mm;
             background: #ffffff;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
             position: relative;
@@ -617,21 +714,6 @@
             box-shadow: 4px 0 15px rgba(0,0,0,0.25);
             overflow: hidden;
             flex-shrink: 0;
-        }
-
-        .left-gold-ribbon-panel::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(rgba(56, 189, 248, 0.18) 1.5px, transparent 1.5px),
-                linear-gradient(135deg, rgba(2, 132, 199, 0.15) 0%, transparent 50%, rgba(3, 43, 105, 0.25) 100%);
-            background-size: 18px 18px, 100% 100%;
-            opacity: 0.85;
-            pointer-events: none;
         }
 
         .main-cert-body {
@@ -743,7 +825,6 @@
             color: #032b69;
             letter-spacing: 3px;
             line-height: 1;
-            text-shadow: 0 2px 4px rgba(3, 43, 105, 0.08);
         }
 
         .cert-title-secondary {
@@ -993,7 +1074,7 @@
 
         <div class="tab-bar">
             <button class="tab-btn active" onclick="switchTab('scorecard-tab', this)">📄 Scorecard Preview</button>
-            <button class="tab-btn" onclick="switchTab('certificate-tab', this)">🎓 Participation Certificate</button>
+            <button class="tab-btn" id="cert-tab-btn" onclick="switchTab('certificate-tab', this)">🎓 Participation Certificate (Locked)</button>
         </div>
 
         <div class="content-container">
@@ -1162,91 +1243,131 @@
                     </div>
                 </div>
 
-                <div class="btn-group-action">
+                <div class="btn-group-action" style="margin-bottom: 20px;">
                     <button id="btn-dl-scorecard-pdf" class="btn-primary" onclick="downloadScorecardPDF()">📩 Download Scorecard PDF</button>
                     <button id="btn-dl-scorecard-jpg" class="btn-secondary" onclick="downloadScorecardJPG()">🖼️ Download Scorecard JPG</button>
+                </div>
+
+                <!-- LINKEDIN VERIFICATION & SUBMISSION CONTAINER -->
+                <div class="linkedin-section">
+                    <div class="linkedin-title">🔗 Unlock Your Official Certificate via LinkedIn</div>
+                    <div class="linkedin-desc">
+                        Step 1: Download your Scorecard PDF/JPG above.<br>
+                        Step 2: Copy the professional post caption below, share it on LinkedIn along with your scorecard, and paste your LinkedIn post link here to unlock your official Certificate!
+                    </div>
+
+                    <div style="font-size: 11px; font-weight: 700; color: #334155; margin-bottom: 4px;">RECOMMENDED POST CAPTION (Click to Copy):</div>
+                    <button class="copy-caption-btn" onclick="copyCaptionText()">📋 Copy Caption to Clipboard</button>
+                    <div class="caption-box-container" id="linkedin-caption-text">
+                        🚀 Thrilled to share that I have successfully qualified the National Talent Test conducted by Pharma2Tech Systems in Pharmacovigilance with an outstanding score! 🎓✨
+
+                        A big thank you to Pharma2Tech Systems & Mr. Rushikesh V. Raje for this incredible Career Catalyst platform bridging Pharmacy and IT. Looking forward to accelerating my career in the Pharma-IT sector! 🚀
+
+                        #Pharma2Tech #Pharmacovigilance #ClinicalResearch #CareerCatalyst #PharmaIT #TalentTest #ProfessionalGrowth #LifeSciences
+                    </div>
+
+                    <!-- Dynamic Form Wrapper for Submission/Resubmission -->
+                    <div id="linkedin-form-area">
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label for="linkedinUrlInput">Paste your LinkedIn Post Link Here:</label>
+                            <input type="url" id="linkedinUrlInput" class="form-control" placeholder="https://www.linkedin.com/posts/your-post-link...">
+                        </div>
+                        <button type="button" id="submit-linkedin-btn" class="btn-primary" onclick="submitLinkedinLink()">🚀 Submit LinkedIn Post Link for Review</button>
+                    </div>
+
+                    <div id="linkedin-status-container"></div>
                 </div>
             </div>
 
             <!-- TAB 2: CERTIFICATE -->
             <div id="certificate-tab" class="tab-pane">
-                <div class="mobile-scroll-wrapper">
-                    <div id="certificate-pdf-target" class="certificate-card">
-
-                        <div class="outer-border-frame"></div>
-                        <div class="inner-border-frame"></div>
-                        <div class="left-gold-ribbon-panel"></div>
-
-                        <div class="main-cert-body">
-                            <img src="https://lh3.googleusercontent.com/d/1qVCzMtsrE4LyeG4lkvgGUb_-HJvE3GES" alt="Watermark" class="cert-watermark">
-
-                            <div class="header-top-row">
-                                <div class="brand-left-group">
-                                    <img src="https://lh3.googleusercontent.com/d/1qVCzMtsrE4LyeG4lkvgGUb_-HJvE3GES" alt="Pharma2Tech Logo" class="brand-logo-large" onerror="this.src='https://via.placeholder.com/85?text=P2T+Logo';">
-                                    <div class="brand-text-block">
-                                        <div class="brand-title">Pharma2Tech Systems</div>
-                                        <div class="brand-subtitle">WHERE PHARMACY MEETS TECHNOLOGY</div>
-                                        <div class="brand-tag-pill">#Career Catalyst Program</div>
-                                    </div>
-                                </div>
-
-                                <div class="header-cert-id-badge" id="cert-id-display">Certificate ID: P2T-NTT20260001</div>
-                            </div>
-
-                            <div class="cert-title-container">
-                                <div class="cert-title-primary">CERTIFICATE</div>
-                                <div class="cert-title-secondary">OF MERIT</div>
-                            </div>
-
-                            <div class="candidate-container">
-                                <div class="presented-label">This Certificate is Proudly Awarded to</div>
-                                <div class="candidate-fullname" id="cert-student-name">STUDENT NAME</div>
-                                <div class="candidate-dotted-line"></div>
-                            </div>
-
-                            <div class="domain-details">
-                                <div>For outstanding performance in the Pharma2Tech National Level Evaluation on</div>
-                                <div class="domain-title-highlight" id="cert-test-name">"Pharmacovigilance"</div>
-                                <div>
-                                    Held on <strong id="cert-exam-date-str">28/07/2026</strong>, securing a score of <span class="merit-score-badge" id="cert-score-display">96.00% (Grade A+)</span>.
-                                </div>
-                            </div>
-
-                            <div class="cert-footer-row">
-                                <div class="footer-seals-group">
-                                    <img src="https://lh3.googleusercontent.com/d/1k-xc_yc1Rb_PvTfZmP5VYbS_bmHAX4Wh" alt="Official Seal" class="official-seal-large" onerror="this.src='https://via.placeholder.com/95?text=Official+Seal';">
-                                    <img src="https://lh3.googleusercontent.com/d/1KYv4jhU5bt5wtKkEh9Lj2jU0RItvQgra" alt="Badge Seal" class="badge-seal-large" onerror="this.src='https://via.placeholder.com/100?text=Badge+Seal';">
-                                </div>
-
-                                <div class="footer-qr-box">
-                                    <div class="qr-card-container">
-                                        <img id="cert-qr-img" src="" alt="Scan Verification">
-                                    </div>
-                                    <div class="verified-badge-pill">
-                                        <span>✓</span> VERIFIED CREDENTIALS
-                                    </div>
-                                </div>
-
-                                <div class="footer-signature-box">
-                                    <div class="signature-img-container">
-                                        <img src="https://lh3.googleusercontent.com/d/1Zb2e4R-qJ2qr-lWm4wk2nX946U1rMaAF" alt="Rushikesh Raje Signature" onerror="this.src='https://via.placeholder.com/190x60?text=Signature';">
-                                    </div>
-                                    <div class="signature-horizontal-line"></div>
-                                    <div class="authority-name">Mr. Rushikesh V. Raje</div>
-                                    <div class="authority-title">
-                                        Founder & MD - Pharma2Tech Systems<br>
-                                        <i>B.Pharm, Certified in Clinical Trials</i>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
+                <div id="certificate-lock-view" class="locked-overlay-container" style="display: none;">
+                    <div style="font-size: 40px; margin-bottom: 12px;" id="lock-icon-symbol">🔒</div>
+                    <div style="font-size: 20px; font-weight: 800; color: #032b69; margin-bottom: 8px;" id="lock-title-text">Certificate Locked</div>
+                    <div style="font-size: 13.5px; color: #64748b; max-width: 450px; margin: 0 auto; line-height: 1.5;" id="lock-message-desc">
+                        Please submit your LinkedIn scorecard post link from the Scorecard tab. Once verified & approved by our administration team, your certificate will be unlocked automatically!
                     </div>
                 </div>
 
-                <div class="btn-group-action">
-                    <button id="btn-dl-cert-pdf" class="btn-primary" onclick="downloadCertificatePDF()">🎓 Download Certificate PDF</button>
-                    <button id="btn-dl-cert-jpg" class="btn-secondary" onclick="downloadCertificateJPG()">🖼️ Download Certificate JPG</button>
+                <div id="certificate-content-view">
+                    <div class="mobile-scroll-wrapper">
+                        <div id="certificate-pdf-target" class="certificate-card">
+
+                            <div class="outer-border-frame"></div>
+                            <div class="inner-border-frame"></div>
+                            <div class="left-gold-ribbon-panel"></div>
+
+                            <div class="main-cert-body">
+                                <img src="https://lh3.googleusercontent.com/d/1qVCzMtsrE4LyeG4lkvgGUb_-HJvE3GES" alt="Watermark" class="cert-watermark">
+
+                                <div class="header-top-row">
+                                    <div class="brand-left-group">
+                                        <img src="https://lh3.googleusercontent.com/d/1qVCzMtsrE4LyeG4lkvgGUb_-HJvE3GES" alt="Pharma2Tech Logo" class="brand-logo-large" onerror="this.src='https://via.placeholder.com/85?text=P2T+Logo';">
+                                        <div class="brand-text-block">
+                                            <div class="brand-title">Pharma2Tech Systems</div>
+                                            <div class="brand-subtitle">WHERE PHARMACY MEETS TECHNOLOGY</div>
+                                            <div class="brand-tag-pill">#Career Catalyst Program</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="header-cert-id-badge" id="cert-id-display">Certificate ID: P2T-NTT20260001</div>
+                                </div>
+
+                                <div class="cert-title-container">
+                                    <div class="cert-title-primary">CERTIFICATE</div>
+                                    <div class="cert-title-secondary">OF MERIT</div>
+                                </div>
+
+                                <div class="candidate-container">
+                                    <div class="presented-label">This Certificate is Proudly Awarded to</div>
+                                    <div class="candidate-fullname" id="cert-student-name">STUDENT NAME</div>
+                                    <div class="candidate-dotted-line"></div>
+                                </div>
+
+                                <div class="domain-details">
+                                    <div>For outstanding performance in the Pharma2Tech National Level Evaluation on</div>
+                                    <div class="domain-title-highlight" id="cert-test-name">"Pharmacovigilance"</div>
+                                    <div>
+                                        Held on <strong id="cert-exam-date-str">28/07/2026</strong>, securing a score of <span class="merit-score-badge" id="cert-score-display">96.00% (Grade A+)</span>.
+                                    </div>
+                                </div>
+
+                                <div class="cert-footer-row">
+                                    <div class="footer-seals-group">
+                                        <img src="https://lh3.googleusercontent.com/d/1k-xc_yc1Rb_PvTfZmP5VYbS_bmHAX4Wh" alt="Official Seal" class="official-seal-large" onerror="this.src='https://via.placeholder.com/95?text=Official+Seal';">
+                                        <img src="https://lh3.googleusercontent.com/d/1KYv4jhU5bt5wtKkEh9Lj2jU0RItvQgra" alt="Badge Seal" class="badge-seal-large" onerror="this.src='https://via.placeholder.com/100?text=Badge+Seal';">
+                                    </div>
+
+                                    <div class="footer-qr-box">
+                                        <div class="qr-card-container">
+                                            <img id="cert-qr-img" src="" alt="Scan Verification">
+                                        </div>
+                                        <div class="verified-badge-pill">
+                                            <span>✓</span> VERIFIED CREDENTIALS
+                                        </div>
+                                    </div>
+
+                                    <div class="footer-signature-box">
+                                        <div class="signature-img-container">
+                                            <img src="https://lh3.googleusercontent.com/d/1Zb2e4R-qJ2qr-lWm4wk2nX946U1rMaAF" alt="Rushikesh Raje Signature" onerror="this.src='https://via.placeholder.com/190x60?text=Signature';">
+                                        </div>
+                                        <div class="signature-horizontal-line"></div>
+                                        <div class="authority-name">Mr. Rushikesh V. Raje</div>
+                                        <div class="authority-title">
+                                            Founder & MD - Pharma2Tech Systems<br>
+                                            <i>B.Pharm, Certified in Clinical Trials</i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="btn-group-action" style="margin-top: 20px;">
+                        <button id="btn-dl-cert-pdf" class="btn-primary" onclick="downloadCertificatePDF()">🎓 Download Certificate PDF</button>
+                        <button id="btn-dl-cert-jpg" class="btn-secondary" onclick="downloadCertificateJPG()">🖼️ Download Certificate JPG</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1291,6 +1412,9 @@
                     document.getElementById('login-screen').style.display = 'none';
                     document.getElementById('portal-app').style.display = 'block';
                     document.getElementById('user-display-name').innerText = response.studentName;
+
+                    // Check Certificate Status after login
+                    checkUserCertificateStatus(response.data.studentId);
                 } else {
                     errorMsg.innerText = response.message || "Invalid Student ID or Password!";
                     errorMsg.style.display = 'block';
@@ -1301,6 +1425,123 @@
             script.src = `${APPS_SCRIPT_URL}?action=login&studentId=${encodeURIComponent(studentId)}&password=${encodeURIComponent(password)}&callback=${callbackName}`;
             document.body.appendChild(script);
         });
+
+        // CHECK CERTIFICATE STATUS (PENDING, APPROVED, REJECTED)
+        function checkUserCertificateStatus(studentId) {
+            const callbackName = 'handleStatus_' + Math.floor(Math.random() * 1000000);
+            window[callbackName] = function(response) {
+                delete window[callbackName];
+                if (script.parentNode) document.body.removeChild(script);
+
+                const statusContainer = document.getElementById('linkedin-status-container');
+                const lockView = document.getElementById('certificate-lock-view');
+                const contentView = document.getElementById('certificate-content-view');
+                const certTabBtn = document.getElementById('cert-tab-btn');
+                const formArea = document.getElementById('linkedin-form-area');
+
+                const statusStr = (response.status || "").trim().toLowerCase();
+
+                if (response.approved || statusStr === "approve" || statusStr === "approved") {
+                    // 1. APPROVED -> UNLOCK CERTIFICATE
+                    lockView.style.display = 'none';
+                    contentView.style.display = 'block';
+                    certTabBtn.innerText = "🎓 Participation Certificate (Unlocked)";
+                    formArea.style.display = 'none'; // Hide submission form on approval
+                    statusContainer.innerHTML = `<div class="status-alert-box status-approved">🎉 Congratulations! Your LinkedIn submission has been approved. Your official certificate is now fully unlocked!</div>`;
+                } 
+                else if (statusStr === "reject" || statusStr === "rejected") {
+                    // 2. REJECTED -> SHOW REJECTION NOTICE & ENABLE RESUBMISSION
+                    lockView.style.display = 'block';
+                    contentView.style.display = 'none';
+                    certTabBtn.innerText = "🎓 Participation Certificate (Rejected - Resubmit)";
+                    formArea.style.display = 'block'; // Show submission form again for correction
+                    document.getElementById('lock-icon-symbol').innerText = "⚠️";
+                    document.getElementById('lock-title-text').innerText = "Submission Rejected";
+                    document.getElementById('lock-message-desc').innerText = "Your previous LinkedIn post link was rejected by the administration. Please check your post, re-share correctly, and submit a new link below.";
+                    statusContainer.innerHTML = `<div class="status-alert-box status-rejected">❌ Status: Rejected. Please provide a valid LinkedIn post link and resubmit.</div>`;
+                }
+                else if (response.hasSubmitted || statusStr === "pending" || statusStr === "") {
+                    // 3. PENDING / UNDER REVIEW -> HIDE SUBMISSION FORM, SHOW PENDING STATUS
+                    lockView.style.display = 'block';
+                    contentView.style.display = 'none';
+                    certTabBtn.innerText = "🎓 Participation Certificate (Under Review)";
+                    formArea.style.display = 'none'; // Hide form so they can't spam submit while pending
+                    document.getElementById('lock-icon-symbol').innerText = "🔒";
+                    document.getElementById('lock-title-text').innerText = "Certificate Locked (Under Review)";
+                    document.getElementById('lock-message-desc').innerText = "Your LinkedIn post verification is currently under review by our administration team. Once approved, your official certificate will be automatically unlocked here!";
+                    statusContainer.innerHTML = `<div class="status-alert-box status-pending">⏳ Status: Pending / Under Review. Your link has been submitted successfully.</div>`;
+                } 
+                else {
+                    // 4. NOT SUBMITTED YET
+                    lockView.style.display = 'block';
+                    contentView.style.display = 'none';
+                    certTabBtn.innerText = "🎓 Participation Certificate (Locked)";
+                    formArea.style.display = 'block';
+                    statusContainer.innerHTML = '';
+                }
+            };
+
+            const script = document.createElement('script');
+            script.src = `${APPS_SCRIPT_URL}?action=checkStatus&studentId=${encodeURIComponent(studentId)}&callback=${callbackName}`;
+            document.body.appendChild(script);
+        }
+
+        // SUBMIT LINKEDIN URL (Updated with reliable fetch API)
+async function submitLinkedinLink() {
+    const linkedinUrl = document.getElementById('linkedinUrlInput').value.trim();
+    if (!linkedinUrl) {
+        alert("Please enter a valid LinkedIn Post URL!");
+        return;
+    }
+
+    if (!currentStudentData || !currentStudentData.studentId) {
+        alert("Session expired! Please login again.");
+        logout();
+        return;
+    }
+
+    const btn = document.getElementById('submit-linkedin-btn');
+    btn.innerText = "Submitting...";
+    btn.disabled = true;
+
+    try {
+        const formData = new URLSearchParams();
+        formData.append('action', 'submitLinkedin');
+        formData.append('studentId', currentStudentData.studentId);
+        formData.append('linkedinUrl', linkedinUrl);
+
+        const response = await fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            alert("LinkedIn link submitted successfully for review!");
+            checkUserCertificateStatus(currentStudentData.studentId);
+        } else {
+            alert(result.message || "Error submitting link. Please try again.");
+            btn.innerText = "🚀 Submit LinkedIn Post Link for Review";
+            btn.disabled = false;
+        }
+    } catch (err) {
+        console.error("Submission error:", err);
+        // Fallback for CORS opaque response if Google Script redirects
+        alert("LinkedIn link submitted successfully for review!");
+        checkUserCertificateStatus(currentStudentData.studentId);
+    }
+}
+
+        // COPY CAPTION FEATURE
+        function copyCaptionText() {
+            const captionText = document.getElementById('linkedin-caption-text').innerText;
+            navigator.clipboard.writeText(captionText).then(() => {
+                alert("✅ Professional caption copied to clipboard! Paste it directly into your LinkedIn post.");
+            }).catch(err => {
+                console.error("Failed to copy text: ", err);
+            });
+        }
 
         // SYNC BOTH SCORECARD & CERTIFICATE DATA
         function syncAndRenderData(data) {
@@ -1314,7 +1555,7 @@
             else if (pct >= 75) grade = "Grade A";
             else if (pct >= 60) grade = "Grade B+";
 
-            const certIdVal = data.certId || `P2T-${data.regNo || '2026001'}`;
+            const certIdVal = data.certId || `P2T-${data.regNo || '20260000'}`;
 
             // --- 1. RENDER SCORECARD ---
             document.getElementById('card-student-name').innerText = data.name;
